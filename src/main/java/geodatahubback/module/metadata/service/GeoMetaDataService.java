@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @Description
@@ -38,6 +39,11 @@ public class GeoMetaDataService {
     public JsonResult getGeoMetaDataById(String id) {
         GeoMetadata geoMetadata=geoMetaDataDao.findById("638eead7157c665d2efe8d9f").get();
         return ResponseResult.success(geoMetadata);
-
     }
+
+    public JsonResult getAllGeoMetaData() {
+        List<GeoMetadata> geoMetadataList = geoMetaDataDao.findAll();
+        return ResponseResult.success(geoMetadataList);
+    }
+
 }

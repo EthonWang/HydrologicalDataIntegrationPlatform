@@ -18,6 +18,13 @@ public class GeoMetaDataController {
     @Autowired
     GeoMetaDataService geoMetaDataService;
 
+
+    //元数据规范接口
+
+
+
+
+    //业务逻辑
     @ApiOperation(value = "新增元数据")
     @PostMapping(value = "/geoMetaData/add")
     public JsonResult addGeoMetaData(@RequestBody AddMetaForm addMetaForm){
@@ -30,6 +37,13 @@ public class GeoMetaDataController {
     public JsonResult getGeoMetaDataById(@PathVariable String id){
 
         return geoMetaDataService.getGeoMetaDataById(id);
+    }
+
+    @ApiOperation(value = "查询所有某元数据")
+    @GetMapping(value = "/geoMetaData/query")
+    public JsonResult getAllGeoMetaData(){
+
+        return geoMetaDataService.getAllGeoMetaData();
     }
 
 

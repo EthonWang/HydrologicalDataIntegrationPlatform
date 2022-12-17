@@ -23,11 +23,22 @@ import java.util.Map;
 
 @RestController
 @CrossOrigin
-public class FileController {
+public class DataItemController {
 
-    @ApiOperation(value = "文件上传")
+
+
+
+    @ApiOperation(value = "数据文件上传")
     @PostMapping("/uploadFile")
     public JsonResult uploadShp(@RequestPart("file") MultipartFile uploadShp) throws IOException {
+        String originFileName = uploadShp.getOriginalFilename(); //eg: XXX.zip
+        System.out.println(originFileName);
+        return ResponseResult.success("file okkkk");
+    }
+
+    @ApiOperation(value = "创建数据条目")
+    @PostMapping("/dataItem/add")
+    public JsonResult addDataItem(@RequestPart("file") MultipartFile uploadShp) throws IOException {
         String originFileName = uploadShp.getOriginalFilename(); //eg: XXX.zip
         System.out.println(originFileName);
         return ResponseResult.success("file okkkk");
