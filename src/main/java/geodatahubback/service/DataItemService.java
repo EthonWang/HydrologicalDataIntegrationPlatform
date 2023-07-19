@@ -49,6 +49,17 @@ public class DataItemService {
         return ResponseResult.success(all);
     }
 
+    public JsonResult getDataListNoPage() {
+        try{
+            List<DataItem> dataItemList= dataItemDao.findAll();
+            return ResponseResult.success(dataItemList);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseResult.error();
+        }
+
+    }
+
     public JsonResult getDataById(String id) {
         DataItem dataItem = dataItemDao.findById(id).get();
         return ResponseResult.success(dataItem);
@@ -74,4 +85,6 @@ public class DataItemService {
             return ResponseResult.error();
         }
     }
+
+
 }

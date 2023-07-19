@@ -7,6 +7,7 @@ import geodatahubback.entity.JsonResult;
 import geodatahubback.utils.ResponseResult;
 import geodatahubback.entity.metadata.identification.TimePeriod;
 import io.swagger.annotations.ApiOperation;
+import jwtspringbootstarterautoconfigure.annotation.LoginRequired;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -102,7 +103,11 @@ public class HelloController {
         return ResponseResult.success(o);
     }
 
-
-
+    @LoginRequired
+    @ApiOperation(value = "HelloWorld测试")
+    @GetMapping("/helloLogin")
+    public JsonResult handle(){
+        return ResponseResult.success("okkkkk!");
+    }
 
 }

@@ -5,15 +5,20 @@ import geodatahubback.entity.JsonResult;
 import geodatahubback.entity.script.ScriptExecDTO;
 import geodatahubback.entity.script.ScriptItem;
 import geodatahubback.service.ScriptService;
+import geodatahubback.utils.ResponseResult;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Set;
 
 /**
  * @Description
@@ -26,6 +31,16 @@ import java.io.IOException;
 public class ScriptController {
     @Autowired
     ScriptService scriptService;
+
+    @Resource
+    private RedisTemplate<String, String> redisTemplate;
+
+    @ApiOperation(value = "获取脚本排名")
+    @GetMapping(value = "/getScriptListSorted")
+    public JsonResult getScriptListSorted(){
+        Set<ZSetOperations.TypedTuple<String>> sortInfo = redisTemplate.opsForZSet().reverseRangeWithScores("geoBack:scriptSortInfo", 0, -1);
+        return ResponseResult.success(sortInfo);
+    }
 
     @ApiOperation(value = "添加脚本")
     @PostMapping(value = "/addScriptItem")
@@ -55,6 +70,7 @@ public class ScriptController {
     @PostMapping(value = "/execScript/{uuid}")
     public JsonResult execScript(@RequestBody ScriptExecDTO scriptExecDTO,
                                  @PathVariable("uuid")  String uuid){
+
         return scriptService.execScript(scriptExecDTO,uuid);
     }
 

@@ -6,6 +6,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.amqp.core.Queue;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.data.mongodb.config.EnableMongoAuditing;
 
@@ -14,7 +15,15 @@ import org.springframework.data.mongodb.config.EnableMongoAuditing;
 public class GeoDataHubBackApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(GeoDataHubBackApplication.class, args);
+
+        //返回IOC容器
+        ConfigurableApplicationContext run = SpringApplication.run(GeoDataHubBackApplication.class, args);
+
+//        String[] beadNames = run.getBeanDefinitionNames();
+//        for (String beadName : beadNames) {
+//            System.out.println(beadName);
+//        }
+
 
 //        AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(TopicRabbitConfig.class);
 //        Queue bean = (Queue) applicationContext.getBean("createTestTopicQueue2");

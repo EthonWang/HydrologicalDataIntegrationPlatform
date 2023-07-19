@@ -14,12 +14,10 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * RestExceptionHandler
- *
- * @author wenbin
- * @version V1.0
- * @date 2020年3月18日
- */
+ * @Description
+ * @Auther wyjq
+ * @Date 2023/6/2
+ **/
 @RestControllerAdvice
 @Slf4j
 public class RestExceptionHandler {

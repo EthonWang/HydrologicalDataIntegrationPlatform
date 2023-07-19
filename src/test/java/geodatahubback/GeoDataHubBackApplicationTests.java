@@ -9,12 +9,16 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import geodatahubback.entity.JsonResult;
 import geodatahubback.entity.User;
 import geodatahubback.mapper.UserMapper;
 import geodatahubback.service.DataMetaService;
 import geodatahubback.service.impl.UserServiceImpl;
+import geodatahubback.utils.GeoServerUtils;
 import geodatahubback.utils.ParseXMLToJSON;
+import io.socket.client.IO;
+import io.socket.client.Socket;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +26,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.sql.DataSource;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -47,6 +54,32 @@ DataMetaService dataMetaService;
 
     @Autowired
     UserMapper userMapper;
+
+    @Test
+
+    public void sendMessage() {
+        // 服务端socket.io连接通信地址
+        String url = "http://172.21.212.14:9099?clientId=123";
+        System.out.println("lalalala");
+        try {
+            IO.Options options = new IO.Options();
+            options.transports = new String[]{"websocket"};
+            //失败后重试次数
+            options.reconnectionAttempts = 2;
+            // 失败重连的时间间隔
+            options.reconnectionDelay = 1000;
+            // 连接超时时间(ms)
+            options.timeout = 500;
+
+            final Socket socket = IO.socket(url, options);
+
+            socket.connect();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @Test
     void contextLoads3() throws IOException {
@@ -140,8 +173,38 @@ DataMetaService dataMetaService;
     }
 
     @Test
-    void test2(){
-        System.out.println("123");
+    void test2() throws FileNotFoundException, URISyntaxException, MalformedURLException {
+        String storeName="map_points";
+        String layerName="map_points";
+        String styleName=null;
+//        String path="/opt/geoserver/data_dir/"+"map_lines.zip";
+        String path="E:\\2TestData\\map_points.zip";
+//        GeoServerUtils.PublishZipShape(
+//                "http://localhost:8061/geoserver",
+//                "admin",
+//                "HnnAcb6l2xzFHuG",
+//                "geo-data-hub2",
+//                storeName,
+//                layerName,
+//                styleName,
+//                path
+//        );
+
+        String tifStoreName="mt";
+        String tifPath="e:\\mt.tif";
+
+        GeoServerUtils.PublishTiff(
+                "http://localhost:8061/geoserver",
+                "admin",
+                "HnnAcb6l2xzFHuG",
+                "geo-data-hub2",
+                tifStoreName,
+                tifPath
+        );
+
+
+
+
     }
 
     @Test

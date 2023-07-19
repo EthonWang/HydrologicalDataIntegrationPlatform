@@ -19,10 +19,12 @@ import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import javax.annotation.Resource;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -64,6 +66,10 @@ public class ScriptService {
     @Autowired
     ScriptTaskService scriptTaskService;
 
+
+    @Resource
+    private RedisTemplate<String, String> redisTemplate;
+
     public JsonResult addScriptItem(ScriptItem scriptItem) {
 
         ObjectMapper mapper = new ObjectMapper();
@@ -91,6 +97,7 @@ public class ScriptService {
         ScriptItem scriptItem = scriptItemDao.findById(id).get();
         String pyScriptAbsPath= scriptsStoreDir+"/"+scriptItem.getFileName();
 
+        redisTemplate.opsForZSet().incrementScore("geoBack:scriptSortInfo",scriptItem.getName(),1);
 
         String taskId=IdUtil.objectId();
         scriptTaskService.createScriptTask(taskId,scriptItem.getName(),scriptExecDTO.getUserId());

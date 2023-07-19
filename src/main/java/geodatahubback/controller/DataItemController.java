@@ -40,10 +40,16 @@ public class DataItemController {
         return dataItemService.createDataItem(dataItem);
     }
 
-    @ApiOperation(value = "获取数据列表")
+    @ApiOperation(value = "获取数据列表--分页")
     @PostMapping("/getDataList")
     public JsonResult getDataList(@RequestBody DataPageDTO dataPageDTO){
         return dataItemService.getDataList(dataPageDTO);
+    }
+
+    @ApiOperation(value = "获取数据列表--不分页")
+    @GetMapping("/getDataListNoPage")
+    public JsonResult getDataListNoPage(){
+        return dataItemService.getDataListNoPage();
     }
 
     @ApiOperation(value = "获取数据列表--脚本选择数据使用")
