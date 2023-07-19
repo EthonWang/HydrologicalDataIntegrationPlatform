@@ -48,6 +48,14 @@ const routes = [
         component: () => import(/* webpackChunkName: "home" */ '@/views/ScriptHub.vue'),
       },
       {
+        path: 'Visualization',
+        name: 'Visualization',
+        meta: {
+          needLogin: true //需要加校检判断的路由
+        },
+        component: () => import(/* webpackChunkName: "home" */ '@/views/Visualization.vue'),
+      },
+      {
         path: 'MySpace',
         name: 'MySpace',
         meta: {

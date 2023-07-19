@@ -154,11 +154,49 @@
             </v-card>
 
           </v-card>
+          <v-card
+            v-if="selectedMenu==='message'"
+            style="height: 100%;overflow: auto">
+            <v-card-title>
+              <h3>消息</h3>
+              <v-switch
+                v-model="socketConnected"
+                @click="changeSocketConnected"
+                :label="`${socketConnected}`"
+                true-value="连接中"
+                false-value="断开连接"
+                color="success"
+                hide-details
+              ></v-switch>
 
+            </v-card-title>
+            <v-divider></v-divider>
+
+            <div class="d-flex align-center">
+              <v-select
+                v-model="sendMsgSelected"
+                :items="sendMsgList"
+                item-title="label"
+                item-value="value"
+                label="选择发送消息"
+                return-object
+              ></v-select>
+              <v-btn size="large" @click="sendMsg">发送</v-btn>
+            </div>
+
+            <div style="height: 68%;overflow-y: scroll" class="d-flex flex-column">
+              <v-chip
+                class="ma-2"
+                size="x-large"
+                v-for="msg in msgList"
+                style="min-height: 40px;"
+              >
+                {{msg}}
+              </v-chip>
+            </div>
+          </v-card>
 
         </v-sheet>
-
-
       </v-col>
     </v-row>
 
@@ -214,9 +252,10 @@
 
 <script setup>
 
-import {onMounted, ref} from "vue";
+import {onMounted, ref, watch} from "vue";
 import requestApi from "@/api/requestApi";
 import PubSub from "pubsub-js";
+import {socket,state} from "@/socket";
 
 let selectedMenu = ref('data')
 
@@ -236,8 +275,14 @@ onMounted(() => {
   PubSub.subscribe("scriptRunFinish",()=>{
     getScriptTaskList(myUserInfo.value.id)
   })
-})
 
+  // if(state.connected) {
+  //   socketConnected.value = "连接中"
+  // }else {
+  //   socketConnected.value = "断开连接"
+  // }
+  console.log(state.value.connected)
+})
 
 const userDataList=ref([])
 const getUserDataList=(userId)=>{
@@ -366,7 +411,60 @@ const changeMenu=(val)=>{
 
 }
 
+//socket
+const socketConnected=ref("断开连接")
 
+const changeSocketConnected=(val)=>{
+  if(socketConnected.value=="断开连接"){
+    socket.connect()
+  }else{
+    socket.disconnect()
+  }
+}
+
+const sendMsgSelected=ref()
+const sendMsgList=ref([
+  {label: '系统信息',value:"server-socket-system-info"},
+  {label: '系统功能',value:"server-socket-system-feature"}
+
+])
+
+const msgList=ref([])
+const isLoading=ref(true)
+const sendMsg=()=>{
+
+  msgList.value.push("我:   "+sendMsgSelected.value["label"])
+  socket.emit(sendMsgSelected.value["value"], "hello",() => {
+    isLoading.value = false;
+  })
+}
+
+
+watch(state.value.connected, (newState,oldVal) => {
+    if(newState) {
+      socketConnected.value = "连接中"
+    }else {
+      socketConnected.value = "断开连接"
+    }
+  },
+  {
+    immediate:true,
+    deep:true
+  }
+)
+
+watch(state.value.recalls,(newVal,oldVal) => {
+    const temp=newVal[newVal.length-1]
+    if(temp){
+      msgList.value.push("系统:   "+temp.toString())
+      console.log(msgList.value)
+    }
+  },
+  {
+    immediate:true,
+    deep:true
+  }
+)
 
 
 </script>

@@ -102,7 +102,6 @@
       </v-col>
     </v-row>
 
-
     <v-dialog
       v-model="modelDeleteDialog"
       persistent
@@ -134,7 +133,6 @@
       </v-card>
     </v-dialog>
 
-
     <v-snackbar
       v-model="snackbar"
       :timeout="2000"
@@ -162,7 +160,6 @@ import requestApi from "@/api/requestApi";
 
 onMounted(() => {
   getModelList()
-  console.log(`the component is now mounted.`)
 })
 
 let snackbar = ref(false)
@@ -279,11 +276,6 @@ let codeTest = ref(`<?xml version="1.0" encoding="UTF-8"?>
     </Inputs>
 
 </Model>`)
-
-
-
-
-
 
 </script>
 

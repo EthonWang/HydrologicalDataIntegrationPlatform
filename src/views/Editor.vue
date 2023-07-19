@@ -281,8 +281,7 @@
                 </VCol>
 
                 <VCol cols="12">
-                  <div class="text-subtitle-1
-  text-medium-emphasis">脚本名称：
+                  <div class="text-subtitle-1 text-medium-emphasis">脚本名称：
                   </div>
                   <VTextField
                     v-model="scriptInfo.name"/>
@@ -743,9 +742,7 @@ const uploadDataFile = (val) => {
     })
 }
 
-
 //脚本条目
-
 let scriptInfo = ref({
   name: "",
   description: "",
@@ -755,7 +752,6 @@ let scriptInfo = ref({
 })
 
 let argumentsStr = ref("")
-
 
 let upScriptFile = ref([])
 
@@ -794,7 +790,6 @@ const createScriptItem = () => {
 
   // scriptInfo.value.arguments = argumentsStr.value.trim().replace("\n", "").split(";").filter(item => item !== "")
 
-  console.log(scriptInfo.value)
   requestApi.createScriptItem(scriptInfo.value)
     .then(res => {
       if (res.data.code === 0) {
@@ -809,7 +804,6 @@ const createScriptItem = () => {
       console.log(err)
     })
 }
-
 
 </script>
 

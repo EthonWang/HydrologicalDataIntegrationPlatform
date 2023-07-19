@@ -254,7 +254,6 @@ import requestApi from "@/api/requestApi";
 
 onMounted(() => {
   getDataList()
-  console.log(`the component is now mounted.`)
 })
 
 // const dataClass = ref([

@@ -1,5 +1,4 @@
 <script setup>
-
 import authV1MaskDark from '@/assets/images/pages/auth-v1-mask-dark.png'
 import authV1MaskLight from '@/assets/images/pages/auth-v1-mask-light.png'
 import authV1Tree2 from '@/assets/images/pages/authv1tree2.png'
@@ -54,7 +53,9 @@ const login=()=>{
         >
           <VCardText class="pt-2">
             <h5 class="text-h5 font-weight-semibold mb-1">
-              Welcome to <br> GeoDataResource! 👋🏻
+<!--              Welcome to <br>-->
+<!--              GeoDataResource! 👋🏻-->
+              异构流域水文模拟资源的结构化描述与表达管理系统
             </h5>
             <p class="mb-0">
               Please sign-in to your account and start the adventure

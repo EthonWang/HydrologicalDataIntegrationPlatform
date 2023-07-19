@@ -53,14 +53,11 @@
 
   </v-container>
 
-
 </template>
 
 <script setup>
 import {ref} from 'vue'
 import CodeMirrorPanel from "@/components/CodeMirrorPanel";
-
-
 
 </script>
 <style>

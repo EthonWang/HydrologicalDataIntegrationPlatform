@@ -18,6 +18,7 @@ import '@core/scss/index.scss'
 
 const app = createApp(App)
 
+
 registerPlugins(app)
 
 app.mount('#app')

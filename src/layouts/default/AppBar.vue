@@ -16,7 +16,7 @@
       width="200"
       src="@/assets/logo.svg"
     />
-
+<!--<div><strong>异构流域水文模拟资源的结构化描述与表达管理系统</strong></div>-->
     <v-spacer></v-spacer>
 
     <v-tabs
@@ -67,12 +67,13 @@ import {useRouter} from 'vue-router'
 const router = useRouter()
 
 const links = ref([
-  {label: 'Home', route: "Home"},
-  {label: 'Model Hub', route: "ModelHub"},
-  {label: 'Data Hub', route: "DataHub"},
-  {label: 'Script Hub', route: "ScriptHub"},
-  {label: 'Editor', route: "Editor"},
-  {label: 'MySpace', route: "MySpace"}
+  {label: '主页', route: "Home"},
+  {label: '模型仓库', route: "ModelHub"},
+  {label: '数据仓库', route: "DataHub"},
+  {label: '脚本仓库', route: "ScriptHub"},
+  {label: '编辑器', route: "Editor"},
+  {label: '可视化', route: "Visualization"},
+  {label: '个人空间', route: "MySpace"},
 ])
 
 let label = ref("未登录")

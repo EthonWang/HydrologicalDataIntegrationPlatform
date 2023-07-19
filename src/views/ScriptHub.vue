@@ -268,11 +268,8 @@ onMounted(() => {
 
 })
 
-
 let snackbar = ref(false)
 let msg = ref("")
-
-
 
 
 let scriptList = ref([])
@@ -286,7 +283,6 @@ let scriptCommit=ref({
   userId:"",
   arguments:[]
 })
-
 
 const invokeDataMethod= (selectedScriptIndex) => {
   curScriptIndex.value=selectedScriptIndex

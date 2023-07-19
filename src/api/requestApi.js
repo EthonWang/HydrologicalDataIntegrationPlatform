@@ -30,6 +30,11 @@ export default {
     return instance.post("/getDataList", data)
   },
 
+  getDataListNoPage(){
+    return instance.get("/getDataListNoPage")
+  }
+  ,
+
   getDataListProcess(){
     return instance.get("/getDataListProcess")
   },
