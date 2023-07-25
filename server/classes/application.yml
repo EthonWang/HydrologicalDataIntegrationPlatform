@@ -1,0 +1,139 @@
+server:
+  port: 8001
+  error:
+    include-message: always
+spring:
+  servlet:
+    multipart:
+      max-file-size: 10000MB        # 设置单个文件最大大小为10GB
+      max-request-size: 100000MB    # 设置多个文件大小为100GB
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: wyj
+    password: 123
+    #虚拟host 可以不设置,使用server默认host
+    virtual-host: test_host1
+
+    #使得消息中带 correlation_id,将发送的消息和返回值之间关联。
+    publisher-confirm-type: correlated
+    #确认消息已发送到队列(Queue)，开启发送失败退回
+    publisher-returns: true
+  data:
+    mongodb:
+      uri: mongodb://localhost/geo_data_hub_back_dev
+  web:
+    resources:
+      static-locations: classpath:/META-INF/resources/,classpath:/resources/, classpath:/static/, classpath:/public/, file:${dataStoreDir}
+  mvc:
+    static-path-pattern: /store/**
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/geo_data_resource?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf-8&autoReconnect=true&useUnicode=true
+    username: root
+    password: 123456
+    type: com.alibaba.druid.pool.DruidDataSource
+
+    #Spring Boot 默认是不注入这些属性值的，需要自己绑定
+    #druid 数据源专有配置
+    # 初始连接数
+    initialSize: 5
+    # 最小连接池数量和最大连接池数量
+    minIdle: 5
+    maxActive: 20
+    # 配置获取连接等待超时的时间，单位为毫秒
+    maxWait: 60000
+    # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接
+    timeBetweenEvictionRunsMillis: 60000
+    # 配置一个连接在池中最小生存的时间
+    minEvictableIdleTimeMillis: 300000
+    # 配置检测连接是否有效
+    validationQuery: SELECT 1
+    #申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。
+    testWhileIdle: true
+    #配置从连接池获取连接时，是否检查连接有效性，true每次都检查；false不检查。做了这个配置会降低性能。
+    testOnBorrow: false
+    #配置向连接池归还连接时，是否检查连接有效性，true每次都检查；false不检查。做了这个配置会降低性能。
+    testOnReturn: false
+    #打开PsCache
+    poolPreparedStatements: true
+    #配置监控统计拦截的filters，stat:监控统计、log4j：日志记录、wall：防御sql注入
+    filters: stat,wall,log4j2
+    maxPoolPreparedStatementPerConnectionSize: 20
+    useGlobalDataSourceStat: true
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      group-id: geo-group
+      auto-offset-reset: earliest
+
+
+
+
+  redis:
+    host: localhost
+    port: 6379
+    password: 123456
+    database: 0
+    lettuce:
+      pool:
+        max-idle: 16
+        max-active: 32
+        min-idle: 8
+mybatis-plus:
+  mapper-locations: classpath:/geodatahubback/mapper/xml/**/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.log4j2.Log4j2Impl
+  global-config:
+    db-config:
+      logic-delete-field: deleted # 全局逻辑删除的实体字段名(since 3.3.0,配置后可以忽略不配置步骤2)
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+
+my-socket-io:
+  host: localhost #主机
+  port: 8003 #socket端口
+  maxFramePayloadLength: 1048576 # 设置最大每帧处理数据的长度
+  pingTimeout: 180000 #Ping消息超时时间（毫秒）
+  pingInterval: 25000 #Ping消息间隔（毫秒）
+
+jwt:
+  secret: wangyijie
+  tokenHeader: token
+  timeOut: 168 #24*7
+
+#mybatis:
+#  config-location: classpath:mybatis/mybatis-config.xml
+#  # 配置了mapper-locations，就不可以在全局配置文件中再添加<mapper>,否则会重复
+#  mapper-locations: classpath:mybatis/mapper/*
+
+
+dataStoreDir: E:/GitProject/GeoDataHubStore
+upFileStoreDir: E:/GitProject/GeoDataHubStore/UpFile
+scriptsStoreDir: E:/GitProject/GeoDataHubStore/Scripts
+scriptTasksDir: E:/GitProject/GeoDataHubStore/ScriptTasks
+
+#静态资源的映射地址前面部分
+staticFilePattern: /store
+
+#日志配置
+logging:
+  config: classpath:log4j2-config.xml
+  file:
+    path: logs
+
+python2: G:\Arcgis10.7\python2.7\ArcGIS10.7\python
+python3: I:\Python39\python
+
+mygeoserver:
+  url: http://localhost:8061/geoserver
+  user: admin
+  password: HnnAcb6l2xzFHuG
+  workName: geo-data-hub
+  storePath: /opt/geoserver/data_dir
