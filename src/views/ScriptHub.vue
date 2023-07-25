@@ -246,9 +246,9 @@
       </template>
     </v-snackbar>
 
-    <v-btn @click="createSeeConnect()">
-      test
-    </v-btn>
+<!--    <v-btn @click="createSeeConnect()">-->
+<!--      test-->
+<!--    </v-btn>-->
 
   </v-container>
 

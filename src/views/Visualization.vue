@@ -14,9 +14,7 @@
                图层 {{index+1}} : {{ layer.name }}
               </v-list-item-title>
               <v-divider class="my-2"></v-divider>
-
             </v-list-item>
-
           </v-list>
         </v-sheet>
       </v-col>
